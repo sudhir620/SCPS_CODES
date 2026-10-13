@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_color"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/close_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:padding="10dp"
+        android:src="@drawable/baseline_close_24" />
+
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Booking"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Current Date -->
+
+    <TextView
+        android:id="@+id/dateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <!-- Vehicle -->
+
+    <Spinner
+        android:id="@+id/vehicleSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Start Time -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Time"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/startTimeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:textColor="@color/white"
+        android:text="Select Start Time"
+        android:textAllCaps="false" />
+
+    <!-- End Time -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End Time"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <Button
+        android:id="@+id/endTimeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:text="Select End Time"
+        android:textAllCaps="false" />
+
+    <!-- Duration / Fare -->
+
+    <TextView
+        android:id="@+id/hourText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Select time"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/proceedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_bg"
+        android:padding="12dp"
+        android:text="Proceed"
+        android:textAllCaps="false"
+        android:textColor="#ffffff" />
+
+</LinearLayout>

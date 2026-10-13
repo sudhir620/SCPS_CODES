@@ -1,0 +1,239 @@
+{% extends "nav.html" %}
+
+{% block main_content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css')}}">
+<!-- FontAwesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="text-white mb-1">Dashboard</h2>
+      <p class="text-white-50 mb-0">Overview of your parking management system</p>
+    </div>
+    <!-- <button class="btn btn-primary" onclick="window.location.reload()"><i
+        class="fas fa-sync-alt me-2"></i>Refresh</button> -->
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-header">
+        <h5 class="stat-title">Total Bookings</h5>
+        <div class="stat-icon blue"><i class="fas fa-calendar-check"></i></div>
+      </div>
+      <div class="stat-value" id="totalBookings">0</div>
+      <!-- <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 12.5% from last week</div> -->
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-header">
+        <h5 class="stat-title">Active Parkings</h5>
+        <div class="stat-icon green"><i class="fas fa-car-side"></i></div>
+      </div>
+      <div class="stat-value" id="activeParkings">0</div>
+      <!-- <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 5 new now</div> -->
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-header">
+        <h5 class="stat-title">Not Active Parkings</h5>
+        <div class="stat-icon purple"><i class="fas fa-car-side text-danger"></i></div>
+      </div>
+      <div class="stat-value" id="inactiveParkings">0</div>
+      <!-- <div class="stat-trend down"><i class="fas fa-arrow-down"></i> 2.1% from last month</div> -->
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-header">
+        <h5 class="stat-title">Sites Active</h5>
+        <div class="stat-icon orange"><i class="fas fa-map-marker-alt"></i></div>
+      </div>
+      <div class="stat-value" id="parkingSites">0</div>
+      <!-- <div class="stat-trend up"><i class="fas fa-arrow-up"></i> 100% Operational</div> -->
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="dashboard-main" hidden>
+    <!-- Revenue Chart -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h5 class="dash-card-title">Revenue Overview</h5>
+        <select class="form-select form-select-sm w-auto bg-dark text-white border-secondary">
+          <option>This Week</option>
+          <option>This Month</option>
+          <option>This Year</option>
+        </select>
+      </div>
+      <div class="chart-container">
+        <canvas id="revenueChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h5 class="dash-card-title">Recent Activity</h5>
+        <a href="#" class="text-primary text-decoration-none small">View All</a>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-dark table-hover mb-0">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Status</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="bg-primary rounded-circle me-2" style="width: 8px; height: 8px;"></div>
+                  <span>John Doe</span>
+                </div>
+              </td>
+              <td><span class="status-badge active">Parked</span></td>
+              <td>2m ago</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="bg-warning rounded-circle me-2" style="width: 8px; height: 8px;"></div>
+                  <span>Sarah Smith</span>
+                </div>
+              </td>
+              <td><span class="status-badge pending">Booking</span></td>
+              <td>15m ago</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="bg-success rounded-circle me-2" style="width: 8px; height: 8px;"></div>
+                  <span>Mike Ross</span>
+                </div>
+              </td>
+              <td><span class="status-badge completed">Paid</span></td>
+              <td>1h ago</td>
+            </tr>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="bg-secondary rounded-circle me-2" style="width: 8px; height: 8px;"></div>
+                  <span>Emma W.</span>
+                </div>
+              </td>
+              <td><span class="status-badge completed">Left</span></td>
+              <td>2h ago</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        fetch_dashboard_data();
+
+        function fetch_dashboard_data() {
+
+            showLoader();
+
+            fetch("{{ url_for('apis.dashboard_data') }}", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer {{ token }}",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(result => {
+
+                    const dashboard_data = result.data || {};
+
+                    // Append values safely
+                    document.getElementById("totalBookings").textContent =
+                        dashboard_data.total_bookings ?? 0;
+
+                    document.getElementById("activeParkings").textContent =
+                        dashboard_data.active_parking_slots ?? 0;
+
+                    document.getElementById("inactiveParkings").textContent =
+                        dashboard_data.inactive_parking_slots ?? 0;
+
+                    document.getElementById("parkingSites").textContent =
+                        dashboard_data.parking_sites ?? 0;
+                })
+                .finally(() => {
+                    closeLoader();
+                });
+        }
+
+    });
+
+
+
+  // Initialize Chart
+  document.addEventListener("DOMContentLoaded", function () {
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(108, 92, 231, 0.5)');
+    gradient.addColorStop(1, 'rgba(108, 92, 231, 0)');
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Revenue',
+          data: [1200, 1900, 1500, 2200, 1800, 2800, 2400],
+          borderColor: '#6c5ce7',
+          backgroundColor: gradient,
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: '#fff',
+          pointBorderColor: '#6c5ce7',
+          pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            },
+            ticks: {
+              color: '#a0a0c0'
+            }
+          },
+          y: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.05)'
+            },
+            ticks: {
+              color: '#a0a0c0'
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css')}}">
+
+<div class="login-page-bg">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-img">
+        <img src="{{ url_for('static', filename='/images/logo.png')}}" class="login-logo" alt="Logo">
+      </div>
+      <h1 class="login-title">SCPS</h1>
+      <p class="login-subtitle">Secure | Simple | Smart Parking</p>
+    </div>
+
+    <form onsubmit="return false;">
+      <div class="form-group">
+        <label for="exampleInputEmail1" class="form-label">Email Address</label>
+        <input type="email" class="form-control custom-input" id="exampleInputEmail1" aria-describedby="emailHelp"
+          placeholder="Enter your email">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control custom-input" id="exampleInputPassword1"
+          placeholder="Enter your password">
+      </div>
+
+      <button id="sign_in_btn" class="btn btn-login">Sign In</button>
+
+      <div class="login-footer">
+        <p class="mb-0">New User? <a class="link-primary ms-1" href="{{url_for('auth_view.signup')}}">Create Account</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  $('#sign_in_btn').on('click', async function (e) {
+    let email = $('#exampleInputEmail1').val().toString();
+    let password = $('#exampleInputPassword1').val().toString();
+    showLoader();
+    const response = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    const result = await response.json();
+    console.log(result);
+
+
+    closeLoader();
+    if (result.success) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged In',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        text: result.msg || 'You have been logged in successfully!',
+        timer: 2000,
+        showConfirmButton: false
+      });
+
+      setTimeout(function () {
+        window.location.href = result.redirect;
+      }, 2000);
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: result.error || 'Something went wrong!!!'
+      });
+    }
+  });
+
+</script>
+
+{% endblock %}

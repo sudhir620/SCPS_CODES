@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Car Park</string>
+    <string name="logo_desc">logo</string>
+    <string name="punch_line">Secure | Simple | Smart Parking</string>
+    <string name="enter_email_address">Enter email address</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_name">Enter name</string>
+    <string name="enter_conf_pass">Enter confirm password</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="already_an_account">Already an account?</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
+    <string name="logout">Logout</string>
+    <string name="vehicles">Vehicles List</string>
+    <string name="history">Booking History</string>
+    <string name="no_data_found">No Data Found!!!</string>
+    <string name="available_parking">Available parking</string>
+    <string name="map_button">map_button</string>
+</resources>

@@ -1,0 +1,116 @@
+{% extends "nav.html" %}
+{% block main_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bookings.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<div class="bookings-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-white mb-1">Daily Parking Logs</h2>
+            <p class="text-white-50 mb-0">Track all entry and exit events across all sites.</p>
+        </div>
+    </div>
+
+    <div class="glass-panel">
+        <div class="bookings-table-wrapper">
+            <table class="bookings-table">
+                <thead>
+                    <tr>
+                        <th>Log ID</th>
+                        <th>Vehicle No.</th>
+                        <th>Parking Site</th>
+                        <th>Date Time</th>
+                        <th>Entry/Exit</th>
+                    </tr>
+                </thead>
+                <tbody id="logsBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        fetchParkingLogs();
+
+        function fetchParkingLogs() {
+
+            showLoader();
+
+            fetch("{{ url_for('apis.parking_logs') }}", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer {{ token }}",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(result => {
+
+                    const logs = result.data || [];
+                    const tbody = document.getElementById("logsBody");
+                    tbody.innerHTML = "";
+
+                    if (logs.length === 0) {
+                        tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            No Data Found
+                        </td>
+                    </tr>
+                `;
+                        return;
+                    }
+
+                    logs.forEach(row => {
+
+                        let gateStatus = "Exit";
+                        let gateClass = "text-danger";
+
+                        if (row.GATE === "ENTRY") {
+                            gateStatus = "Entry";
+                            gateClass = "text-success";
+                        }
+
+                        tbody.innerHTML += `
+                    <tr>
+                        <td class="text-white">#LOG-${row.ID}</td>
+                        <td>
+                            <span class="badge bg-secondary">
+                                ${row.EXTRACTED_NUMBER || ""}
+                            </span>
+                        </td>
+                        <td>${row.name || ""}</td>
+                        <td>${row.DATENTIME || ""}</td>
+                        <td>
+                            <span class="${gateClass}">
+                                ${gateStatus}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+                    });
+
+                })
+                .catch(error => {
+
+                    console.error("Error loading parking logs:", error);
+
+                    document.getElementById("logsBody").innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center text-danger">
+                        Failed to load data
+                    </td>
+                </tr>
+            `;
+                })
+                .finally(() => {
+                    closeLoader();
+                });
+        }
+
+    });
+</script>
+
+{% endblock %}

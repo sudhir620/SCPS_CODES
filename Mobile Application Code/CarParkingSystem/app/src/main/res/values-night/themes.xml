@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CarParkingSystem" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/bg_color</item>
+        <item name="android:colorSecondary" tools:ignore="NewApi">@color/bg_color</item>
+        <item name="colorAccent">@color/gray_color</item>
+        <item name="android:windowBackground">@color/bg_color</item>
+    </style>
+
+    <style name="Theme.CarParkingSystem" parent="Base.Theme.CarParkingSystem" />
+
+</resources>

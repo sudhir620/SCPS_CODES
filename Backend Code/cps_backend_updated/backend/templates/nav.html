@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css')}}">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark glass-navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/"><img src="{{ url_for('static', filename='/images/logo.png')}}"
+                style="height: 45px;" alt=""></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link {% if active_nav == 'dashboard' %}active{% endif %}" aria-current="page"
+                        href="/">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_nav == 'bookings' %}active{% endif %}" aria-current="page"
+                        href="/admin/bookings">Bookings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_nav == 'parkings' %}active{% endif %}" aria-current="page"
+                        href="/admin/parkings">Parkings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_nav == 'parking_logs' %}active{% endif %}" aria-current="page"
+                        href="/admin/parking_logs">Parking Log</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <div class="dropdown">
+                    <img src="{{ url_for('static', filename='images/user_placeholder.png') }}"
+                        style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;"
+                        id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end"
+                        aria-labelledby="dropdownMenuButton2">
+                        <li><a class="dropdown-item" id="logout_btn">Logout</a></li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>
+
+{% block main_content %}{% endblock %}
+
+<script>
+    $('#logout_btn').on('click', async function (e) {
+        e.preventDefault()
+        showLoader();
+        const response = await fetch('/logout', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+        if (result?.redirect) {
+            console.log(result.redirect);
+            setTimeout(function () {
+                window.location.href = result.redirect;
+            }, 2000);
+        }
+        closeLoader();
+
+        if (result.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Logged Out',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                text: result.msg || 'You have been logged out successfully!',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: result.error || 'Something went wrong!!!'
+            });
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,327 @@
+:root {
+    --text-main: #d0d0e0;
+    --text-muted: #a0a0c0;
+    --card-bg: rgba(30, 30, 30, 0.6);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --primary-purple: #6c5ce7;
+}
+
+.parkings-container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.glass-panel {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+/* Toolbar */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.search-box {
+    position: relative;
+    min-width: 300px;
+}
+
+.search-box input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 0.6rem 1rem 0.6rem 2.5rem;
+    border-radius: 8px;
+    width: 100%;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+.search-box input:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #6c5ce7;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a0a0c0;
+}
+
+/* Table */
+.parkings-table-wrapper {
+    overflow-x: auto;
+}
+
+.parkings-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--text-main);
+    font-size: 1.05rem;
+}
+
+.parkings-table th {
+    background: transparent;
+    padding: 1rem;
+    font-size: 1.1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #fff;
+    border-bottom: 1px solid var(--card-border);
+    white-space: nowrap;
+}
+
+.parkings-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+.parkings-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.parkings-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Actions */
+.btn-action {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #a0a0c0;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0.4rem;
+    border-radius: 6px;
+    margin-right: 0.25rem;
+}
+
+.btn-action:hover {
+    background: rgba(108, 92, 231, 0.2);
+    color: #fff;
+    border-color: rgba(108, 92, 231, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-action.edit:hover {
+    color: #f1c40f;
+    border-color: #f1c40f;
+}
+
+.btn-action.delete:hover {
+    color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.btn-action.view:hover {
+    color: #2ecc71;
+    border-color: #2ecc71;
+}
+
+/* Custom Modal Styles */
+.glass-modal .modal-content {
+    background: rgba(30, 30, 30, 0.8) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+}
+
+.glass-modal .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-modal .modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-modal label {
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.text-muted-custom {
+    color: var(--text-muted) !important;
+}
+
+.glass-modal .form-control,
+.glass-modal .form-select {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff !important;
+    font-size: 0.95rem;
+}
+
+.glass-modal .form-select {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    appearance: none;
+    padding-right: 2.5rem;
+}
+
+.glass-modal .form-select option {
+    background-color: #2d2d2d;
+    color: #fff;
+}
+
+.glass-modal .form-control:focus,
+.glass-modal .form-select:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.25);
+    color: #fff !important;
+}
+
+.glass-modal .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+#map {
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Slot Card Styles */
+.slot-card {
+    background: rgba(45, 45, 45, 0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.slot-card:hover {
+    background: rgba(60, 60, 60, 0.6);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    border-color: rgba(108, 92, 231, 0.3);
+}
+
+.slot-icon-container {
+    font-size: 2.2rem;
+    margin-bottom: 0.75rem;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+}
+
+.slot-card.occupied .slot-icon-container {
+    color: #ff4757;
+    filter: drop-shadow(0 0 8px rgba(255, 71, 87, 0.3));
+}
+
+.slot-card.available .slot-icon-container {
+    color: #2ed573;
+    filter: drop-shadow(0 0 8px rgba(46, 213, 115, 0.3));
+}
+
+.status-indicator {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-indicator.online {
+    background-color: #2ed573;
+    box-shadow: 0 0 6px #2ed573;
+}
+
+.status-indicator.offline {
+    background-color: #ffa502;
+    box-shadow: 0 0 6px #ffa502;
+}
+
+.form-check-input:checked {
+    background-color: #6c5ce7 !important;
+}
+
+.slot-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.slot-badge-custom {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.badge-occupied {
+    background: rgba(255, 71, 87, 0.15);
+    color: #ff4757;
+    border: 1px solid rgba(255, 71, 87, 0.3);
+}
+
+.badge-available {
+    background: rgba(46, 213, 115, 0.15);
+    color: #2ed573;
+    border: 1px solid rgba(46, 213, 115, 0.3);
+}
+
+.badge-service {
+    background: rgba(108, 92, 231, 0.15);
+    color: #a29bfe;
+    border: 1px solid rgba(108, 92, 231, 0.3);
+}
+
+.badge-out {
+    background: rgba(255, 165, 2, 0.15);
+    color: #ffa502;
+    border: 1px solid rgba(255, 165, 2, 0.3);
+}
+
+/* Stats Bar */
+.stats-bar {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.stat-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}

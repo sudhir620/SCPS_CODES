@@ -1,0 +1,147 @@
+{% extends "nav.html" %}
+
+{% block main_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bookings.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<div class="bookings-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-white mb-1">Bookings Management</h2>
+            <p class="text-white-50 mb-0">View and manage all parking reservations.</p>
+        </div>
+    </div>
+
+    <div class="glass-panel">
+
+        <div class="bookings-table-wrapper">
+            <table class="bookings-table">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>User</th>
+                        <th>Vehicle No.</th>
+                        <th>Slot</th>
+                        <th>Date</th>
+                        <th>Duration</th>
+                        <th>Payment</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingsBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        fetchBookings();
+
+        function fetchBookings() {
+
+            showLoader();
+
+            fetch("{{ url_for('apis.getBookingHostoryAdmin') }}", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer {{ token }}",
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(result => {
+
+                    console.log("Bookings fetched:", result);
+
+                    const bookings = result.data || [];
+                    const tbody = document.getElementById("bookingsBody");
+                    tbody.innerHTML = "";
+
+                    if (bookings.length === 0) {
+                        tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            No Bookings Found
+                        </td>
+                    </tr>
+                `;
+                        return;
+                    }
+
+                    bookings.forEach(booking => {
+
+                        let paymentStatus = "Unpaid";
+                        let paymentClass = "unpaid";
+
+                        if (booking.payment_id_1 != 0 && booking.payment_id_2 == 0) {
+                            paymentStatus = "Fully Paid";
+                            paymentClass = "paid";
+                        } else if (booking.payment_id_1 != 0 && booking.payment_id_2 != 0) {
+                            paymentStatus = "Extra Paid";
+                            paymentClass = "partial";
+                        }
+                        let totalAmount =
+                            parseFloat(booking.amount_paid_1 || 0) +
+                            parseFloat(booking.amount_paid_2 || 0);
+
+                        let initials = booking.user_name
+                            ? booking.user_name.substring(0, 2).toUpperCase()
+                            : "NA";
+
+                        tbody.innerHTML += `
+                    <tr>
+                        <td>#Bk-${booking.id}</td>
+                        <td>
+                            <div class="user-cell">
+                                <div class="user-avatar bg-primary">
+                                    ${initials}
+                                </div>
+                                <div>${booking.user_name || ""}</div>
+                            </div>
+                        </td>
+                        <td>${booking.number || ""}</td>
+                        <td>Slot #${booking.slot_number || ""}</td>
+                        <td>${booking.booking_date || ""}</td>
+                        <td>
+                            <div class="small text-white">
+                                ${booking.start_time || ""}
+                            </div>
+                            <div class="small">
+                                To ${booking.end_time || ""}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge badge-payment ${paymentClass}">
+                                ${paymentStatus}
+                            </span>
+                        </td>
+                        <td>₹${totalAmount}</td>
+                    </tr>
+                `;
+                    });
+
+                })
+                .catch(error => {
+                    console.error("Error loading bookings:", error);
+
+                    document.getElementById("bookingsBody").innerHTML = `
+                <tr>
+                    <td colspan="7" class="text-center text-danger">
+                        Failed to load bookings
+                    </td>
+                </tr>
+            `;
+                })
+                .finally(() => {
+                    closeLoader();
+                });
+        }
+
+    });
+</script>
+
+
+
+{% endblock %}

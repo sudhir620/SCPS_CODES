@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".screens.VehiclesListActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Vehicles List"
+        app:titleTextColor="@color/white" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/vehicleList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:scrollbars="none"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <TextView
+                android:id="@+id/noDataFound"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/no_data_found"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/addButton"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="bottom|right"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/plus"
+                tools:ignore="RtlHardcoded" />
+
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>

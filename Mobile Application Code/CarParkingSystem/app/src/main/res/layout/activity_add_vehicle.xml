@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".screens.AddVehicleActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="Vehicle Details"
+        app:titleTextColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/et_bg"
+        android:src="@drawable/upload" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="12sp"
+        android:textColor="@color/gray_color"
+        android:text="Capture Vehicle number plate image"/>
+
+    <EditText
+        android:id="@+id/owner_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/et_bg"
+        android:hint="Owner Name"
+        android:inputType="text"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="15dp"
+        android:singleLine="true"
+        android:textColorHint="@color/gray_color"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/owner_mobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/et_bg"
+        android:hint="Owner Mobile"
+        android:inputType="number"
+        android:maxLength="10"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="15dp"
+        android:singleLine="true"
+        android:textColorHint="@color/gray_color"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/numberView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/et_bg"
+        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        android:hint="Vehicle Number"
+        android:inputType="textCapCharacters"
+        android:maxLength="10"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="15dp"
+        android:singleLine="true"
+        android:textColorHint="@color/gray_color"
+        android:textSize="14sp"
+        tools:ignore="TextFields" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/addBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_bg"
+        android:padding="12dp"
+        android:text="Save Data"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="@+id/textField1"
+        app:layout_constraintStart_toStartOf="@+id/textField1"
+        app:layout_constraintTop_toBottomOf="@+id/textField1" />
+
+
+</LinearLayout>
